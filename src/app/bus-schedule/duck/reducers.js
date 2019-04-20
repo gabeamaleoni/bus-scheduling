@@ -2,7 +2,9 @@
 import * as types from './types'
 
 const initialState = {
-	isFetching: false
+	isFetching: false,
+	tripsArr: [],
+	busArr: []
 }
 
 export default (state = initialState, action) => {
@@ -10,7 +12,8 @@ export default (state = initialState, action) => {
 		case types.ON_BUS_SCHEDULE_LOAD:
 			return {
 				...state,
-				busSchedulingArr: action.payload
+				tripsArr: action.payload.updatedTripsArr,
+				busArr: action.payload.busArr
 			}
 		default:
 			return state

@@ -9,7 +9,18 @@ class BusSchedule extends Component {
 	}
 
 	render() {
-		return <section>this is a scheduler</section>
+		let busArr = this.props.busSchedule.busArr
+		return (
+			<section className='BusSchedule'>
+				{busArr.length ? (
+					busArr.map((bus, idx) => {
+						return <div key={idx}>bus {bus}</div>
+					})
+				) : (
+					<p>No bus schedule data</p>
+				)}
+			</section>
+		)
 	}
 }
 
