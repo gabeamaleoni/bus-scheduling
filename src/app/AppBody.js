@@ -7,9 +7,9 @@ class AppBody extends Component {
 		return (
 			<div className='AppBody'>
 				<header className='AppBody__header'>
-					<h1>Bus Scheduling</h1>
-					<BusSchedule />
+					<h4>Bus Scheduling</h4>
 				</header>
+				<BusSchedule />
 			</div>
 		)
 	}

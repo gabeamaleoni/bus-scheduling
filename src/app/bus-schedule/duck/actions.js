@@ -13,7 +13,7 @@ export const onBusScheduleLoad = trips => dispatch => {
 		trips.forEach((trip, idx) => {
 			trip.busId = idx + 1
 			updatedTripsArr.push(trip)
-			busArr.push(trip.busId)
+			busArr.push({ trip: trip, id: idx + 1 })
 		})
 	}
 	scheduleData.updatedTripsArr = updatedTripsArr

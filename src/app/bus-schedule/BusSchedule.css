@@ -1,0 +1,25 @@
+.BusSchedule {
+	max-width: 992px;
+	margin: 2rem auto;
+}
+.BusSchedule__row {
+	padding: 10px 0;
+	background-color: rgb(255, 255, 255);
+	border-bottom: 1px solid #f4f4f4;
+}
+.BusSchedule__row:nth-child(even) {
+	background-color: rgb(240, 248, 255);
+}
+.BusSchedule__row:last-child {
+	border-bottom: 1px solid transparent;
+}
+.BusSchedule__trip {
+	margin: 5px auto;
+	position: relative;
+	border: 1px solid black;
+	padding: 5px 0;
+	font-size: 12px;
+	cursor: pointer;
+	text-align: center;
+	display: inline-block;
+}
