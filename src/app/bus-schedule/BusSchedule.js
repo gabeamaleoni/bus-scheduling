@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { onBusScheduleLoad } from './duck/actions'
+import { onBusScheduleLoad, onTripSelect } from './duck/actions'
+import BusRow from './BusRow'
 import busSchedulingInput from '../../utils/bus-scheduling-input'
 import './BusSchedule.css'
 
@@ -14,6 +15,24 @@ class BusSchedule extends Component {
 		return tripWidth
 	}
 
+	onTripSelect = id => {
+		console.log('id', id)
+		this.props.dispatch(onTripSelect({ id: id }))
+	}
+
+	calculateWidth = (startTime, endTime) => {
+		const tripWidth = endTime - startTime
+		return tripWidth
+	}
+
+	getSelectedTrip = id => {
+		let isSelected = false
+		if (this.props.busSchedule.selectedTrip) {
+			isSelected = id === this.props.busSchedule.selectedTrip.id
+		}
+		return isSelected
+	}
+
 	render() {
 		let busArr = this.props.busSchedule.busArr
 		return (
@@ -22,17 +41,16 @@ class BusSchedule extends Component {
 					busArr.map((bus, idx) => {
 						const { startTime, endTime, id } = bus.trip
 						return (
-							<div key={idx} className='BusSchedule__row'>
-								{/* bus {bus.id} */}
-								<div
-									className='BusSchedule__trip'
-									style={{
-										left: startTime,
-										width: this.calculateWidth(startTime, endTime)
-									}}>
-									{id}
-								</div>
-							</div>
+							<BusRow
+								onTripSelect={() => this.onTripSelect(id)}
+								key={id}
+								isSelected={this.getSelectedTrip(id)}
+								idx={idx}
+								id={id}
+								calculateWidth={this.calculateWidth}
+								startTime={startTime}
+								endTime={endTime}
+							/>
 						)
 					})
 				) : (

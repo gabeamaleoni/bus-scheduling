@@ -4,7 +4,8 @@ import * as types from './types'
 const initialState = {
 	isFetching: false,
 	tripsArr: [],
-	busArr: []
+	busArr: [],
+	selectedTrip: null
 }
 
 export default (state = initialState, action) => {
@@ -14,6 +15,17 @@ export default (state = initialState, action) => {
 				...state,
 				tripsArr: action.payload.updatedTripsArr,
 				busArr: action.payload.busArr
+			}
+		case types.ON_TRIP_SELECT:
+			let selectedTrip
+			if (state.selectedTrip && action.payload.id === state.selectedTrip.id) {
+				selectedTrip = null
+			} else {
+				selectedTrip = action.payload
+			}
+			return {
+				...state,
+				selectedTrip: selectedTrip
 			}
 		default:
 			return state

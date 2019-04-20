@@ -20,3 +20,8 @@ export const onBusScheduleLoad = trips => dispatch => {
 	scheduleData.busArr = busArr
 	dispatch(acceptBusScheduleLoad(scheduleData))
 }
+
+export const onTripSelect = id => ({
+	type: types.ON_TRIP_SELECT,
+	payload: id
+})
