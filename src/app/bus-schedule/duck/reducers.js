@@ -27,6 +27,16 @@ export default (state = initialState, action) => {
 				...state,
 				selectedTrip: selectedTrip
 			}
+		case types.ON_BUS_SELECT:
+			let selectedBusIdx = action.payload.busIdx
+			let selectedBus = state.busArr[selectedBusIdx]
+			selectedBus.trips = action.payload.trips
+			let updatedBusArr = state.busArr
+			updatedBusArr[selectedBusIdx] = selectedBus
+			return {
+				...state,
+				busArr: updatedBusArr
+			}
 		default:
 			return state
 	}

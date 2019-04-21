@@ -1,17 +1,36 @@
 import React from 'react'
 
+const getSelectedTrip = (id, props) => {
+	let isSelected = false
+	if (props.selectedTrip) {
+		isSelected = id === props.selectedTrip
+	}
+	return isSelected
+}
+
 const BusRow = props => {
 	return (
-		<div className='BusSchedule__row'>
-			<div
-				className={`BusSchedule__trip ${props.isSelected ? 'is-selected' : ''}`}
-				onClick={() => props.onTripSelect(props.id)}
-				style={{
-					left: props.startTime,
-					width: props.calculateWidth(props.startTime, props.endTime)
-				}}>
-				{props.id}
-			</div>
+		<div
+			className='BusSchedule__row'
+			onClick={() => props.onBusSelect(props.idx)}>
+			{props.trips && props.trips.length
+				? props.trips.map((trip, idx) => {
+						return (
+							<div
+								key={idx}
+								className={`BusSchedule__trip ${
+									getSelectedTrip(trip.id, props) ? 'is-selected' : ''
+								}`}
+								onClick={() => props.onTripSelect(trip.id)}
+								style={{
+									left: trip.startTime,
+									width: props.calculateWidth(trip.startTime, trip.endTime)
+								}}>
+								{trip.id}
+							</div>
+						)
+				  })
+				: ''}
 		</div>
 	)
 }

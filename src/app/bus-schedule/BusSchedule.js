@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { onBusScheduleLoad, onTripSelect } from './duck/actions'
+import { onBusScheduleLoad, onTripSelect, onBusSelect } from './duck/actions'
 import BusRow from './BusRow'
 import busSchedulingInput from '../../utils/bus-scheduling-input'
 import './BusSchedule.css'
@@ -16,46 +16,46 @@ class BusSchedule extends Component {
 	}
 
 	onTripSelect = id => {
-		console.log('id', id)
+		// console.log('id: ', id)
 		this.props.dispatch(onTripSelect({ id: id }))
 	}
 
-	calculateWidth = (startTime, endTime) => {
-		const tripWidth = endTime - startTime
-		return tripWidth
-	}
-
-	getSelectedTrip = id => {
-		let isSelected = false
+	onBusSelect = busIdx => {
 		if (this.props.busSchedule.selectedTrip) {
-			isSelected = id === this.props.busSchedule.selectedTrip.id
+			// console.log('onBusSelect busIdx: ', busIdx)
+			this.props.dispatch(onBusSelect(busIdx))
 		}
-		return isSelected
 	}
 
 	render() {
 		let busArr = this.props.busSchedule.busArr
 		return (
 			<section className='BusSchedule'>
-				{busArr.length ? (
-					busArr.map((bus, idx) => {
-						const { startTime, endTime, id } = bus.trip
-						return (
-							<BusRow
-								onTripSelect={() => this.onTripSelect(id)}
-								key={id}
-								isSelected={this.getSelectedTrip(id)}
-								idx={idx}
-								id={id}
-								calculateWidth={this.calculateWidth}
-								startTime={startTime}
-								endTime={endTime}
-							/>
-						)
-					})
-				) : (
-					<p>No bus schedule data</p>
-				)}
+				<div className='BusSchedule__inner'>
+					{busArr.length ? (
+						busArr.map((bus, idx) => {
+							// console.log('bus: ', bus)
+							return (
+								<BusRow
+									onTripSelect={this.onTripSelect}
+									onBusSelect={this.onBusSelect}
+									key={idx}
+									idx={idx}
+									id={bus.id}
+									selectedTrip={
+										this.props.busSchedule.selectedTrip
+											? this.props.busSchedule.selectedTrip.id
+											: ''
+									}
+									calculateWidth={this.calculateWidth}
+									trips={bus.trips}
+								/>
+							)
+						})
+					) : (
+						<p>No bus schedule data</p>
+					)}
+				</div>
 			</section>
 		)
 	}

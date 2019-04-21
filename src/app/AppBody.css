@@ -1,5 +1,5 @@
 .AppBody__header {
-	background-color: #282c34;
+	background-color: rgb(18, 18, 18);
 	min-height: 70px;
 	display: flex;
 	flex-direction: column;
