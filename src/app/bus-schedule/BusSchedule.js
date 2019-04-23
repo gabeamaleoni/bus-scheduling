@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { onBusScheduleLoad, onTripSelect, onAssignTrip } from './duck/actions'
 import BusRow from './BusRow'
+import ScheduleTimeline from './ScheduleTimeline'
 import busSchedulingInput from '../../utils/bus-scheduling-input'
 import './BusSchedule.css'
 
@@ -31,6 +32,19 @@ class BusSchedule extends Component {
 		return (
 			<section className='BusSchedule'>
 				<div className='BusSchedule__inner'>
+					<div className='ScheduleTimeline'>
+						{this.props.busSchedule.scheduleTimeInHours &&
+							this.props.busSchedule.scheduleTimeInHours.map(interval => {
+								return (
+									<ScheduleTimeline
+										key={interval.hour}
+										hour={interval.hour}
+										min={interval.min}
+									/>
+								)
+							})}
+					</div>
+
 					{busArr.length ? (
 						busArr.map((bus, idx) => {
 							// Only show bus routes that have trips, or if it's the last extra route

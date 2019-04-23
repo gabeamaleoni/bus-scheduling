@@ -9,23 +9,35 @@
 .BusSchedule__inner {
 	overflow: auto;
 }
-.BusSchedule__row {
+.BusRow {
+	display: flex;
 	position: relative;
 	background-color: rgb(40, 40, 40);
-	padding: 10px 0;
+	padding: 10px;
 	height: 35px;
 	border-bottom: 1px solid #272727;
 }
-.BusSchedule__row:nth-child(even) {
+.BusRow:nth-child(even) {
 	background-color: rgb(52, 52, 52);
 }
-.BusSchedule__row:last-child {
+.BusRow:last-child {
 	border-bottom: 1px solid transparent;
 }
-.BusSchedule__trip {
+.BusRow__left {
+	color: #999;
+	padding: 0;
+	min-width: 160px;
+	border-right: 1px solid #444;
+}
+.BusRow__left,
+.BusRow__right {
+	position: relative;
+	display: flex;
+	height: 100%;
+	align-items: center;
+}
+.BusRow__trip {
 	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
 	padding: 5px 0;
 	font-size: 12px;
 	color: white;
@@ -35,16 +47,31 @@
 	background-color: #696969;
 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
-.BusSchedule__trip:hover,
-.BusSchedule__trip:active,
-.BusSchedule__trip:focus {
+.BusRow__trip:hover,
+.BusRow__trip:active,
+.BusRow__trip:focus {
 	background-color: #818181;
 	box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
 }
-.BusSchedule__trip.is-selected {
+.BusRow__trip.is-selected {
 	background-color: #e3c328;
 	color: #000;
 	font-weight: 600;
+}
+.ScheduleTimeline {
+	position: relative;
+	bottom: 10px;
+	display: block;
+	width: 100%;
+	height: 30px;
+	margin-left: 171px;
+}
+.ScheduleTimeline__hour {
+	position: absolute;
+	display: inline-block;
+	color: #999;
+	bottom: 0;
+	font-size: 12px;
 }
 .BusSchedule__error,
 .BusSchedule__message {

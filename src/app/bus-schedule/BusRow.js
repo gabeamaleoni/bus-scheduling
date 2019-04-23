@@ -10,28 +10,32 @@ const getSelectedTrip = (id, props) => {
 
 const BusRow = props => {
 	return (
-		<div
-			className='BusSchedule__row'
-			onClick={() => props.onAssignTrip(props.busIdx)}>
-			{/* {console.log('Row props', props)} */}
-			{props.trips && props.trips.length
-				? props.trips.map((trip, idx) => {
-						return (
-							<div
-								key={idx}
-								className={`BusSchedule__trip ${
-									getSelectedTrip(trip.id, props) ? 'is-selected' : ''
-								}`}
-								onClick={e => props.onTripSelect(e, trip.id, props.busIdx)}
-								style={{
-									left: trip.startTime,
-									width: props.calculateWidth(trip.startTime, trip.endTime)
-								}}>
-								{trip.id}
-							</div>
-						)
-				  })
-				: ''}
+		<div className='BusRow' onClick={() => props.onAssignTrip(props.busIdx)}>
+			<div className='BusRow__left'>
+				<span>
+					{props.trips.length ? `Bus: ${props.busIdx + 1}` : 'New Bus'}
+				</span>
+			</div>
+			<div className='BusRow__right'>
+				{props.trips && props.trips.length
+					? props.trips.map((trip, idx) => {
+							return (
+								<div
+									key={idx}
+									className={`BusRow__trip ${
+										getSelectedTrip(trip.id, props) ? 'is-selected' : ''
+									}`}
+									onClick={e => props.onTripSelect(e, trip.id, props.busIdx)}
+									style={{
+										left: trip.startTime,
+										width: props.calculateWidth(trip.startTime, trip.endTime)
+									}}>
+									{trip.id}
+								</div>
+							)
+					  })
+					: ''}
+			</div>
 		</div>
 	)
 }

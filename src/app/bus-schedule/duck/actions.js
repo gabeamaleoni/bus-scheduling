@@ -10,6 +10,20 @@ export const onBusScheduleLoad = trips => dispatch => {
 	const updatedTripsArr = []
 	const busArr = []
 	const scheduleData = {}
+	const scheduleTimeInHours = []
+	const totalScheduleTimeMin = 720 // 12 hours in min
+	let startingMinute = 0
+	while (startingMinute <= totalScheduleTimeMin) {
+		startingMinute++
+
+		if (startingMinute % 60 === 0) {
+			scheduleTimeInHours.push({
+				hour: startingMinute / 60,
+				min: startingMinute
+			})
+			continue
+		}
+	}
 
 	if (trips && trips.length) {
 		trips.forEach((trip, idx) => {
@@ -24,6 +38,7 @@ export const onBusScheduleLoad = trips => dispatch => {
 
 	scheduleData.updatedTripsArr = updatedTripsArr
 	scheduleData.busArr = busArr
+	scheduleData.scheduleTimeInHours = scheduleTimeInHours
 	dispatch(acceptBusScheduleLoad(scheduleData))
 }
 
@@ -114,6 +129,7 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 
 const checkIfTripsConflict = (targetBusRoute, selectedTripObj) => {
 	let tripsConflict = false
+
 	if (!targetBusRoute) {
 		return tripsConflict
 	}
@@ -121,8 +137,10 @@ const checkIfTripsConflict = (targetBusRoute, selectedTripObj) => {
 
 	for (var i = 0; i < targetBusRouteTripsArr.length; i++) {
 		if (
-			targetBusRouteTripsArr[i].startTime < selectedTripObj.startTime &&
-			targetBusRouteTripsArr[i].endTime > selectedTripObj.startTime
+			(targetBusRouteTripsArr[i].startTime < selectedTripObj.startTime &&
+				targetBusRouteTripsArr[i].endTime > selectedTripObj.startTime) ||
+			(targetBusRouteTripsArr[i].startTime >= selectedTripObj.startTime &&
+				targetBusRouteTripsArr[i].endTime <= selectedTripObj.endTime)
 		) {
 			tripsConflict = true
 			break

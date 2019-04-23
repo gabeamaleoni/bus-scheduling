@@ -16,7 +16,8 @@ export default (state = defaultState, action) => {
 			return {
 				...state,
 				tripsArr: action.payload.updatedTripsArr,
-				busArr: action.payload.busArr
+				busArr: action.payload.busArr,
+				scheduleTimeInHours: action.payload.scheduleTimeInHours
 			}
 
 		case types.ON_TRIP_SELECT:
