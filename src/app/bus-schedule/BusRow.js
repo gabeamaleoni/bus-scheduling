@@ -12,7 +12,8 @@ const BusRow = props => {
 	return (
 		<div
 			className='BusSchedule__row'
-			onClick={() => props.onBusSelect(props.idx)}>
+			onClick={() => props.onAssignTrip(props.busIdx)}>
+			{/* {console.log('Row props', props)} */}
 			{props.trips && props.trips.length
 				? props.trips.map((trip, idx) => {
 						return (
@@ -21,7 +22,7 @@ const BusRow = props => {
 								className={`BusSchedule__trip ${
 									getSelectedTrip(trip.id, props) ? 'is-selected' : ''
 								}`}
-								onClick={() => props.onTripSelect(trip.id)}
+								onClick={e => props.onTripSelect(e, trip.id, props.busIdx)}
 								style={{
 									left: trip.startTime,
 									width: props.calculateWidth(trip.startTime, trip.endTime)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { onBusScheduleLoad, onTripSelect, onBusSelect } from './duck/actions'
+import { onBusScheduleLoad, onTripSelect, onAssignTrip } from './duck/actions'
 import BusRow from './BusRow'
 import busSchedulingInput from '../../utils/bus-scheduling-input'
 import './BusSchedule.css'
@@ -15,15 +15,14 @@ class BusSchedule extends Component {
 		return tripWidth
 	}
 
-	onTripSelect = id => {
-		// console.log('id: ', id)
-		this.props.dispatch(onTripSelect({ id: id }))
+	onTripSelect = (event, id, busIdx) => {
+		event.stopPropagation()
+		this.props.dispatch(onTripSelect({ id: id, busIdx: busIdx }))
 	}
 
-	onBusSelect = busIdx => {
+	onAssignTrip = targetBusIdx => {
 		if (this.props.busSchedule.selectedTrip) {
-			// console.log('onBusSelect busIdx: ', busIdx)
-			this.props.dispatch(onBusSelect(busIdx))
+			this.props.dispatch(onAssignTrip(targetBusIdx))
 		}
 	}
 
@@ -34,13 +33,13 @@ class BusSchedule extends Component {
 				<div className='BusSchedule__inner'>
 					{busArr.length ? (
 						busArr.map((bus, idx) => {
-							// console.log('bus: ', bus)
-							return (
+							// console.log(bus)
+							return bus.trips && bus.trips.length ? (
 								<BusRow
 									onTripSelect={this.onTripSelect}
-									onBusSelect={this.onBusSelect}
+									onAssignTrip={this.onAssignTrip}
 									key={idx}
-									idx={idx}
+									busIdx={idx}
 									id={bus.id}
 									selectedTrip={
 										this.props.busSchedule.selectedTrip
@@ -50,10 +49,19 @@ class BusSchedule extends Component {
 									calculateWidth={this.calculateWidth}
 									trips={bus.trips}
 								/>
+							) : (
+								''
 							)
 						})
 					) : (
 						<p>No bus schedule data</p>
+					)}
+					{this.props.busSchedule.errors.length ? (
+						<p className='BusSchedule__error'>
+							{this.props.busSchedule.errors[0]}
+						</p>
+					) : (
+						''
 					)}
 				</div>
 			</section>
@@ -65,7 +73,4 @@ const mapStateToProps = state => ({
 	busSchedule: state.busSchedule
 })
 
-export default connect(
-	mapStateToProps,
-	null // no mapDispatchToProps
-)(BusSchedule)
+export default connect(mapStateToProps)(BusSchedule)

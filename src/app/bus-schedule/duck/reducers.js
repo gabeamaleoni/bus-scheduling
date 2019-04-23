@@ -1,14 +1,16 @@
 // bus-schedule/duck/reducers.js
 import * as types from './types'
 
-const initialState = {
+const defaultState = {
 	isFetching: false,
 	tripsArr: [],
 	busArr: [],
-	selectedTrip: null
+	errors: [],
+	selectedTrip: null,
+	shouldShowEmptyRoute: false
 }
 
-export default (state = initialState, action) => {
+export default (state = defaultState, action) => {
 	switch (action.type) {
 		case types.ON_BUS_SCHEDULE_LOAD:
 			return {
@@ -16,27 +18,47 @@ export default (state = initialState, action) => {
 				tripsArr: action.payload.updatedTripsArr,
 				busArr: action.payload.busArr
 			}
-		case types.ON_TRIP_SELECT:
+
+		case types.ACCEPT_TRIP_SELECT:
 			let selectedTrip
-			if (state.selectedTrip && action.payload.id === state.selectedTrip.id) {
+			const busOfSelectedTrip = state.busArr[action.payload.busIdx]
+
+			if (
+				// if user clicks currently selected trip
+				state.selectedTrip &&
+				action.payload.id === state.selectedTrip.id
+			) {
 				selectedTrip = null
 			} else {
 				selectedTrip = action.payload
 			}
+
+			busOfSelectedTrip.idx = action.payload.busIdx
 			return {
 				...state,
-				selectedTrip: selectedTrip
+				selectedTrip: selectedTrip,
+				busOfSelectedTrip: busOfSelectedTrip
 			}
-		case types.ON_BUS_SELECT:
-			let selectedBusIdx = action.payload.busIdx
-			let selectedBus = state.busArr[selectedBusIdx]
-			selectedBus.trips = action.payload.trips
-			let updatedBusArr = state.busArr
-			updatedBusArr[selectedBusIdx] = selectedBus
+
+		case types.ACCEPT_ASSIGN_TRIP:
 			return {
 				...state,
-				busArr: updatedBusArr
+				busArr: action.payload.busArr,
+				selectedTrip: null,
+				errors: []
 			}
+
+		case types.REJECT_ASSIGN_TRIP:
+			const error =
+				'A bus can only do one trip at a time. Try a different time slot.'
+			const updatedErrors = state.errors
+			updatedErrors.push(error)
+			return {
+				...state,
+				selectedTrip: null,
+				errors: updatedErrors
+			}
+
 		default:
 			return state
 	}
