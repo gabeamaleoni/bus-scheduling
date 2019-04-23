@@ -16,6 +16,36 @@ class BusSchedule extends Component {
 		return tripWidth
 	}
 
+	calculateEarliestTime = trips => {
+		let allStartTimes = []
+		let earliestTime
+
+		trips.forEach(trip => {
+			allStartTimes.push(trip.startTime)
+		})
+
+		earliestTime = Math.min(...allStartTimes)
+		if (earliestTime && earliestTime !== Infinity) {
+			earliestTime = new Date(earliestTime * 1000).toISOString().substr(15, 4)
+		}
+		return earliestTime
+	}
+
+	calculateLatestTime = trips => {
+		let allEndTimes = []
+		let latestTime
+
+		trips.forEach(trip => {
+			allEndTimes.push(trip.endTime)
+		})
+
+		latestTime = Math.max(...allEndTimes)
+		if (latestTime && latestTime !== -Infinity) {
+			latestTime = new Date(latestTime * 1000).toISOString().substr(15, 4)
+		}
+		return latestTime
+	}
+
 	onTripSelect = (event, id, busIdx) => {
 		event.stopPropagation()
 		this.props.dispatch(onTripSelect({ id: id, busIdx: busIdx }))
@@ -62,6 +92,8 @@ class BusSchedule extends Component {
 											: ''
 									}
 									calculateWidth={this.calculateWidth}
+									earliestTime={this.calculateEarliestTime}
+									latestTime={this.calculateLatestTime}
 									trips={bus.trips}
 								/>
 							) : (

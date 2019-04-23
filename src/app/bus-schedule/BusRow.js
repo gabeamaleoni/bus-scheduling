@@ -15,6 +15,13 @@ const BusRow = props => {
 				<span>
 					{props.trips.length ? `Bus: ${props.busIdx + 1}` : 'New Bus'}
 				</span>
+				{props.trips && props.trips.length ? (
+					<span className='BusRow__time-window'>
+						{props.earliestTime(props.trips)} - {props.latestTime(props.trips)}
+					</span>
+				) : (
+					''
+				)}
 			</div>
 			<div className='BusRow__right'>
 				{props.trips && props.trips.length
