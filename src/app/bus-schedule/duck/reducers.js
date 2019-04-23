@@ -19,7 +19,7 @@ export default (state = defaultState, action) => {
 				busArr: action.payload.busArr
 			}
 
-		case types.ACCEPT_TRIP_SELECT:
+		case types.ON_TRIP_SELECT:
 			let selectedTrip
 			const busOfSelectedTrip = state.busArr[action.payload.busIdx]
 
@@ -38,6 +38,12 @@ export default (state = defaultState, action) => {
 				...state,
 				selectedTrip: selectedTrip,
 				busOfSelectedTrip: busOfSelectedTrip
+			}
+
+		case types.ON_ADD_EXTRA_ROUTE:
+			return {
+				...state,
+				busArr: action.payload
 			}
 
 		case types.ACCEPT_ASSIGN_TRIP:

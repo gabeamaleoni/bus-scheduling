@@ -1,7 +1,8 @@
 .BusSchedule {
 	padding: 30px;
 	overflow: hidden;
-	height: calc(100vh - 183px);
+	min-height: 500px;
+	height: calc(100vh - 155px);
 	overflow: hidden;
 	background-color: rgb(24, 24, 24);
 }
@@ -31,7 +32,6 @@
 	cursor: pointer;
 	text-align: center;
 	display: inline-block;
-	transition: background-color 0.4s ease;
 	background-color: #696969;
 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
@@ -46,7 +46,8 @@
 	color: #000;
 	font-weight: 600;
 }
-.BusSchedule__error {
-	color: azure;
+.BusSchedule__error,
+.BusSchedule__message {
+	color: rgb(226, 226, 226);
 	text-align: center;
 }

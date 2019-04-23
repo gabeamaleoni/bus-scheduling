@@ -33,8 +33,9 @@ class BusSchedule extends Component {
 				<div className='BusSchedule__inner'>
 					{busArr.length ? (
 						busArr.map((bus, idx) => {
-							// console.log(bus)
-							return bus.trips && bus.trips.length ? (
+							// Only show bus routes that have trips, or if it's the last extra route
+							return (bus.trips && bus.trips.length) ||
+								idx === busArr.length - 1 ? (
 								<BusRow
 									onTripSelect={this.onTripSelect}
 									onAssignTrip={this.onAssignTrip}
@@ -54,7 +55,7 @@ class BusSchedule extends Component {
 							)
 						})
 					) : (
-						<p>No bus schedule data</p>
+						<p className='BusSchedule__message'>No bus schedule data</p>
 					)}
 					{this.props.busSchedule.errors.length ? (
 						<p className='BusSchedule__error'>

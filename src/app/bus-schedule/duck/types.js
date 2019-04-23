@@ -1,8 +1,8 @@
 // bus-schedule/duck/types.js
 
 export const ON_BUS_SCHEDULE_LOAD = 'ON_BUS_SCHEDULE_LOAD'
+export const ON_ADD_EXTRA_ROUTE = 'ON_ADD_EXTRA_ROUTE'
 export const ON_TRIP_SELECT = 'ON_TRIP_SELECT'
-export const ACCEPT_TRIP_SELECT = 'ACCEPT_TRIP_SELECT'
 export const ON_ASSIGN_TRIP = 'ON_ASSIGN_TRIP'
 export const ACCEPT_ASSIGN_TRIP = 'ACCEPT_ASSIGN_TRIP'
 export const REJECT_ASSIGN_TRIP = 'REJECT_ASSIGN_TRIP'
