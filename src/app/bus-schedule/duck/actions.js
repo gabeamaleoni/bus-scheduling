@@ -42,8 +42,8 @@ export const onBusScheduleLoad = trips => dispatch => {
 	dispatch(acceptBusScheduleLoad(scheduleData))
 }
 
-const handleExtraRoute = data => ({
-	type: types.ON_ADD_EXTRA_ROUTE,
+const handleProvisionalBus = data => ({
+	type: types.ON_ADD_PROVISIONAL_BUS,
 	payload: data
 })
 
@@ -55,7 +55,7 @@ const removeProvisionalBus = busArr => {
 
 export const onTripSelect = data => (dispatch, getState) => {
 	let newBusArr = getState().busSchedule.busArr
-	let extraBusRoute = {
+	let provisionalBus = {
 		trips: [],
 		id: newBusArr.length + 1
 	}
@@ -69,11 +69,11 @@ export const onTripSelect = data => (dispatch, getState) => {
 
 	// create a new bus at the bottom of bus array
 	if (currentSelectedTripId) {
-		newBusArr.push(extraBusRoute)
+		newBusArr.push(provisionalBus)
 	} else {
 		newBusArr = removeProvisionalBus(newBusArr)
 	}
-	dispatch(handleExtraRoute(newBusArr))
+	dispatch(handleProvisionalBus(newBusArr))
 }
 
 const acceptAssignTrip = data => ({
@@ -88,14 +88,14 @@ const rejectAssignTrip = newBusArr => ({
 export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	const tripsArr = getState().busSchedule.tripsArr
 	const busArr = getState().busSchedule.busArr
-	const currentBusRoute = getState().busSchedule.busOfSelectedTrip
-	const targetBusRoute = busArr[targetBusIdx]
+	const currentBus = getState().busSchedule.busOfSelectedTrip
+	const targetBus = busArr[targetBusIdx]
 	let selectedTripObj = {}
 	const selectedTripId = getState().busSchedule.selectedTrip
 		? getState().busSchedule.selectedTrip.id
 		: ''
 
-	// Get the trip that will be assigned to target bus route from the total trips array
+	// Get the trip that will be assigned to target bus from the total trips array
 	for (let i = 0; i < tripsArr.length; i++) {
 		if (tripsArr[i].id === selectedTripId) {
 			selectedTripObj = tripsArr[i]
@@ -104,23 +104,23 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	}
 
 	// Check if the trips conflict
-	const tripsConflict = checkIfTripsConflict(targetBusRoute, selectedTripObj)
+	const tripsConflict = checkIfTripsConflict(targetBus, selectedTripObj)
 
 	if (tripsConflict) {
 		const newBusArr = removeProvisionalBus(busArr)
 		dispatch(rejectAssignTrip(newBusArr))
 	} else {
-		// Remove the trip from it's current bus route
+		// Remove the trip from it's current bus
 		if (selectedTripId) {
-			currentBusRoute.trips = currentBusRoute.trips.filter(trip => {
+			currentBus.trips = currentBus.trips.filter(trip => {
 				return trip.id !== selectedTripId
 			})
-			busArr[currentBusRoute.idx] = currentBusRoute
+			busArr[currentBus.idx] = currentBus
 		}
 
-		// Append the trip into the target bus route
-		targetBusRoute.trips.push(selectedTripObj)
-		busArr[targetBusIdx] = targetBusRoute
+		// Append the trip into the target bus
+		targetBus.trips.push(selectedTripObj)
+		busArr[targetBusIdx] = targetBus
 		const newBusArr = busArr.filter(bus => {
 			return bus.trips && bus.trips.length !== 0
 		})
@@ -135,29 +135,29 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	}
 }
 
-const checkIfTripsConflict = (targetBusRoute, selectedTripObj) => {
+const checkIfTripsConflict = (targetBus, selectedTripObj) => {
 	let tripsConflict = false
 
-	if (targetBusRoute.id === selectedTripObj.busId) {
+	if (targetBus.id === selectedTripObj.busId) {
 		// If we are trying to assign trip to the bus it's already assigned to
 		return tripsConflict
 	}
-	const targetBusRouteTripsArr = targetBusRoute.trips
+	const targetBusTripsArr = targetBus.trips
 
-	for (var i = 0; i < targetBusRouteTripsArr.length; i++) {
+	for (var i = 0; i < targetBusTripsArr.length; i++) {
 		if (
-			(targetBusRouteTripsArr[i].startTime < selectedTripObj.startTime &&
-				targetBusRouteTripsArr[i].endTime > selectedTripObj.startTime) ||
-			(targetBusRouteTripsArr[i].startTime >= selectedTripObj.startTime &&
-				targetBusRouteTripsArr[i].endTime <= selectedTripObj.endTime)
+			(targetBusTripsArr[i].startTime < selectedTripObj.startTime &&
+				targetBusTripsArr[i].endTime > selectedTripObj.startTime) ||
+			(targetBusTripsArr[i].startTime >= selectedTripObj.startTime &&
+				targetBusTripsArr[i].endTime <= selectedTripObj.endTime)
 		) {
 			tripsConflict = true
 			break
 		}
 
 		if (
-			targetBusRouteTripsArr[i].startTime < selectedTripObj.endTime &&
-			targetBusRouteTripsArr[i].endTime > selectedTripObj.endTime
+			targetBusTripsArr[i].startTime < selectedTripObj.endTime &&
+			targetBusTripsArr[i].endTime > selectedTripObj.endTime
 		) {
 			tripsConflict = true
 			break

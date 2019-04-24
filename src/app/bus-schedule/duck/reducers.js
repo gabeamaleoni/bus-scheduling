@@ -2,12 +2,10 @@
 import * as types from './types'
 
 const defaultState = {
-	isFetching: false,
 	tripsArr: [],
 	busArr: [],
 	errors: [],
-	selectedTrip: null,
-	shouldShowEmptyRoute: false
+	selectedTrip: null
 }
 
 export default (state = defaultState, action) => {
@@ -42,7 +40,7 @@ export default (state = defaultState, action) => {
 				errors: []
 			}
 
-		case types.ON_ADD_EXTRA_ROUTE:
+		case types.ON_ADD_PROVISIONAL_BUS:
 			return {
 				...state,
 				busArr: action.payload

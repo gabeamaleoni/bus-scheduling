@@ -17,7 +17,15 @@ const BusRow = props => {
 				</span>
 				{props.trips && props.trips.length ? (
 					<span className='BusRow__time-window'>
-						{props.earliestTime(props.trips)} - {props.latestTime(props.trips)}
+						{props.calculateTimeframe({
+							trips: props.trips,
+							timeframe: 'earliest'
+						})}{' '}
+						-{' '}
+						{props.calculateTimeframe({
+							trips: props.trips,
+							timeframe: 'latest'
+						})}{' '}
 					</span>
 				) : (
 					''
