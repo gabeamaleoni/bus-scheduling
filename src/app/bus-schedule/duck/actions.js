@@ -149,15 +149,9 @@ const checkIfTripsConflict = (targetBus, selectedTripObj) => {
 			(targetBusTripsArr[i].startTime < selectedTripObj.startTime &&
 				targetBusTripsArr[i].endTime > selectedTripObj.startTime) ||
 			(targetBusTripsArr[i].startTime >= selectedTripObj.startTime &&
-				targetBusTripsArr[i].endTime <= selectedTripObj.endTime)
-		) {
-			tripsConflict = true
-			break
-		}
-
-		if (
-			targetBusTripsArr[i].startTime < selectedTripObj.endTime &&
-			targetBusTripsArr[i].endTime > selectedTripObj.endTime
+				targetBusTripsArr[i].endTime <= selectedTripObj.endTime) ||
+			(targetBusTripsArr[i].startTime < selectedTripObj.endTime &&
+				targetBusTripsArr[i].endTime > selectedTripObj.endTime)
 		) {
 			tripsConflict = true
 			break
