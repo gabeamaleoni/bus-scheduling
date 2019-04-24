@@ -105,9 +105,11 @@ class BusSchedule extends Component {
 	render() {
 		return (
 			<section className='BusSchedule'>
-				{this.renderTimeline()}
-				{this.renderBusRows()}
-				{this.renderErrors()}
+				<div className='BusSchedule__inner'>
+					{this.renderTimeline()}
+					{this.renderBusRows()}
+					{this.renderErrors()}
+				</div>
 			</section>
 		)
 	}

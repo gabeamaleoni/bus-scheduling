@@ -10,7 +10,9 @@ const getSelectedTrip = (id, props) => {
 
 const BusRow = props => {
 	return (
-		<div className='BusRow' onClick={() => props.onAssignTrip(props.busIdx)}>
+		<div
+			className={`BusRow ${props.selectedTrip ? 'is-hoverable' : ''}`}
+			onClick={() => props.onAssignTrip(props.busIdx)}>
 			<div className='BusRow__left'>
 				<span>
 					{props.trips.length ? `Bus: ${props.busIdx + 1}` : 'New Bus'}

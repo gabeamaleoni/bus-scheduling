@@ -1,17 +1,28 @@
 .BusSchedule {
 	padding: 30px;
-	overflow: hidden;
 	min-height: 500px;
 	height: calc(100vh - 155px);
 	overflow: hidden;
 	background-color: rgb(24, 24, 24);
 }
-
+.BusSchedule__inner {
+	overflow: auto;
+}
 .BusRow {
 	display: flex;
 	position: relative;
 	background-color: rgb(40, 40, 40);
 	padding: 10px;
+	height: 35px;
+	width: calc(100% + 250px);
+	min-width: 1000px;
+	border-bottom: 1px solid #272727;
+	transition: 0.3s ease;
+}
+.BusRow.is-hoverable:hover {
+	background-color: rgb(32, 32, 32);
+	padding: 10px;
+	cursor: pointer;
 	height: 35px;
 	border-bottom: 1px solid #272727;
 }
