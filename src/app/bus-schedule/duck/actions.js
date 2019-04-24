@@ -10,13 +10,12 @@ export const onBusScheduleLoad = trips => dispatch => {
 	const updatedTripsArr = []
 	const busArr = []
 	const scheduleData = {}
-	const scheduleTimeInHours = []
+	const scheduleTimeInHours = [{ hour: 0, min: 0 }]
 	const totalScheduleTimeMin = 720 // 12 hours in min
 	let startingMinute = 0
 	while (startingMinute <= totalScheduleTimeMin) {
 		startingMinute++
-
-		if (startingMinute % 60 === 0) {
+		if (startingMinute % 60 === 0 || startingMinute === 0) {
 			scheduleTimeInHours.push({
 				hour: startingMinute / 60,
 				min: startingMinute
