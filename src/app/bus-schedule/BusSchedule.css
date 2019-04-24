@@ -6,9 +6,7 @@
 	overflow: hidden;
 	background-color: rgb(24, 24, 24);
 }
-.BusSchedule__inner {
-	overflow: auto;
-}
+
 .BusRow {
 	display: flex;
 	position: relative;
@@ -65,7 +63,7 @@
 	color: #000;
 	font-weight: 600;
 }
-.ScheduleTimeline {
+.BusSchedule__timeline {
 	position: relative;
 	bottom: 10px;
 	display: block;

@@ -46,6 +46,13 @@ const handleExtraRoute = data => ({
 	type: types.ON_ADD_EXTRA_ROUTE,
 	payload: data
 })
+
+const removeProvisionalBus = busArr => {
+	return busArr.filter(bus => {
+		return bus.trips.length > 0
+	})
+}
+
 export const onTripSelect = data => (dispatch, getState) => {
 	let newBusArr = getState().busSchedule.busArr
 	let extraBusRoute = {
@@ -64,9 +71,7 @@ export const onTripSelect = data => (dispatch, getState) => {
 	if (currentSelectedTripId) {
 		newBusArr.push(extraBusRoute)
 	} else {
-		newBusArr = newBusArr.filter(bus => {
-			return bus.trips.length > 0
-		})
+		newBusArr = removeProvisionalBus(newBusArr)
 	}
 	dispatch(handleExtraRoute(newBusArr))
 }
@@ -75,9 +80,11 @@ const acceptAssignTrip = data => ({
 	type: types.ACCEPT_ASSIGN_TRIP,
 	payload: data
 })
-const rejectAssignTrip = () => ({
-	type: types.REJECT_ASSIGN_TRIP
+const rejectAssignTrip = newBusArr => ({
+	type: types.REJECT_ASSIGN_TRIP,
+	payload: newBusArr
 })
+
 export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	const tripsArr = getState().busSchedule.tripsArr
 	const busArr = getState().busSchedule.busArr
@@ -100,7 +107,8 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	const tripsConflict = checkIfTripsConflict(targetBusRoute, selectedTripObj)
 
 	if (tripsConflict) {
-		dispatch(rejectAssignTrip())
+		const newBusArr = removeProvisionalBus(busArr)
+		dispatch(rejectAssignTrip(newBusArr))
 	} else {
 		// Remove the trip from it's current bus route
 		if (selectedTripId) {
@@ -130,7 +138,8 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 const checkIfTripsConflict = (targetBusRoute, selectedTripObj) => {
 	let tripsConflict = false
 
-	if (!targetBusRoute) {
+	if (targetBusRoute.id === selectedTripObj.busId) {
+		// If we are trying to assign trip to the bus it's already assigned to
 		return tripsConflict
 	}
 	const targetBusRouteTripsArr = targetBusRoute.trips

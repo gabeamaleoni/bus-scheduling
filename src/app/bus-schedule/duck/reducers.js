@@ -38,7 +38,8 @@ export default (state = defaultState, action) => {
 			return {
 				...state,
 				selectedTrip: selectedTrip,
-				busOfSelectedTrip: busOfSelectedTrip
+				busOfSelectedTrip: busOfSelectedTrip,
+				errors: []
 			}
 
 		case types.ON_ADD_EXTRA_ROUTE:
@@ -63,6 +64,7 @@ export default (state = defaultState, action) => {
 			return {
 				...state,
 				selectedTrip: null,
+				busArr: action.payload,
 				errors: updatedErrors
 			}
 
