@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { onBusScheduleLoad, onTripSelect, onAssignTrip } from './duck/actions'
 import BusRow from './BusRow'
 import ScheduleTimeline from './ScheduleTimeline'
-import busSchedulingInput from '../../utils/bus-scheduling-input'
+import busSchedulingJSON from '../../utils/bus-scheduling-input'
 import './BusSchedule.css'
 
 class BusSchedule extends Component {
 	componentDidMount() {
-		this.props.dispatch(onBusScheduleLoad(busSchedulingInput))
+		this.props.dispatch(onBusScheduleLoad(busSchedulingJSON))
 	}
 
 	calculateWidth = (startTime, endTime) => {
@@ -29,7 +29,8 @@ class BusSchedule extends Component {
 		timeToShow =
 			params.timeframe === 'earliest'
 				? Math.min(...allTimes)
-				: Math.min(...allTimes)
+				: Math.max(...allTimes)
+
 		if (timeToShow && timeToShow !== Infinity && timeToShow !== -Infinity) {
 			timeToShow = new Date(timeToShow * 1000).toISOString().substr(15, 4)
 		}

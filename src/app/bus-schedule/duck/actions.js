@@ -26,11 +26,9 @@ export const onBusScheduleLoad = trips => dispatch => {
 
 	if (trips && trips.length) {
 		trips.forEach((trip, idx) => {
-			trip.busId = idx + 1
 			updatedTripsArr.push(trip)
 			busArr.push({
-				trips: [trip],
-				id: idx + 1
+				trips: [trip]
 			})
 		})
 	}
@@ -89,18 +87,13 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	const busArr = getState().busSchedule.busArr
 	const currentBus = getState().busSchedule.busOfSelectedTrip
 	const targetBus = busArr[targetBusIdx]
-	let selectedTripObj = {}
+	let selectedTripObj
 	const selectedTripId = getState().busSchedule.selectedTrip
 		? getState().busSchedule.selectedTrip.id
 		: ''
 
 	// Get the trip that will be assigned to target bus from the total trips array
-	for (let i = 0; i < tripsArr.length; i++) {
-		if (tripsArr[i].id === selectedTripId) {
-			selectedTripObj = tripsArr[i]
-			break
-		}
-	}
+	selectedTripObj = tripsArr.find(tripsArr => tripsArr.id === selectedTripId)
 
 	// Check if the trips conflict
 	const tripsConflict = checkIfTripsConflict(targetBus, selectedTripObj)
@@ -134,27 +127,61 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	}
 }
 
-const checkIfTripsConflict = (targetBus, selectedTripObj) => {
+const checkIfTripsConflict = (targetBus, selectedTrip) => {
 	let tripsConflict = false
+	const sortedBusTrips = targetBus.trips.sort(
+		(a, b) => a.startTime - b.startTime
+	)
 
-	if (targetBus.id === selectedTripObj.busId) {
-		// If we are trying to assign trip to the bus it's already assigned to
+	if (targetBus.trips.filter(trip => trip.id === selectedTrip.id).length > 0) {
+		/* targetBus trips contains the element we're looking for */
 		return tripsConflict
 	}
-	const targetBusTripsArr = targetBus.trips
 
-	for (var i = 0; i < targetBusTripsArr.length; i++) {
+	for (var i = 0; i < sortedBusTrips.length; i++) {
 		if (
-			(targetBusTripsArr[i].startTime < selectedTripObj.startTime &&
-				targetBusTripsArr[i].endTime > selectedTripObj.startTime) ||
-			(targetBusTripsArr[i].startTime >= selectedTripObj.startTime &&
-				targetBusTripsArr[i].endTime <= selectedTripObj.endTime) ||
-			(targetBusTripsArr[i].startTime < selectedTripObj.endTime &&
-				targetBusTripsArr[i].endTime > selectedTripObj.endTime)
+			(sortedBusTrips[i].startTime < selectedTrip.startTime &&
+				sortedBusTrips[i].endTime > selectedTrip.startTime) ||
+			(sortedBusTrips[i].startTime >= selectedTrip.startTime &&
+				sortedBusTrips[i].endTime <= selectedTrip.endTime) ||
+			(sortedBusTrips[i].startTime < selectedTrip.endTime &&
+				sortedBusTrips[i].endTime > selectedTrip.endTime)
 		) {
 			tripsConflict = true
 			break
 		}
 	}
 	return tripsConflict
+
+	// if (
+	// 	selectedTrip.startTime < targetBus.trips[0].startTime &&
+	// 	selectedTrip.endTime < targetBus.trips[0].endTime
+	// ) {
+	// 	return false
+	// }
 }
+
+// const checkIfTripsConflict = (targetBus, selectedTripObj) => {
+// 	let tripsConflict = false
+
+// 	if (targetBus.id === selectedTripObj.busId) {
+// 		// If we are trying to assign trip to the bus it's already assigned to
+// 		return tripsConflict
+// 	}
+// 	const targetBusTripsArr = targetBus.trips
+
+// 	for (var i = 0; i < targetBusTripsArr.length; i++) {
+// 		if (
+// 			(targetBusTripsArr[i].startTime < selectedTripObj.startTime &&
+// 				targetBusTripsArr[i].endTime > selectedTripObj.startTime) ||
+// 			(targetBusTripsArr[i].startTime >= selectedTripObj.startTime &&
+// 				targetBusTripsArr[i].endTime <= selectedTripObj.endTime) ||
+// 			(targetBusTripsArr[i].startTime < selectedTripObj.endTime &&
+// 				targetBusTripsArr[i].endTime > selectedTripObj.endTime)
+// 		) {
+// 			tripsConflict = true
+// 			break
+// 		}
+// 	}
+// 	return tripsConflict
+// }

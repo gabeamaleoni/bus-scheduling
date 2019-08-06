@@ -32,7 +32,6 @@ export default (state = defaultState, action) => {
 				selectedTrip = action.payload
 			}
 
-			busOfSelectedTrip.idx = action.payload.busIdx
 			return {
 				...state,
 				selectedTrip: selectedTrip,

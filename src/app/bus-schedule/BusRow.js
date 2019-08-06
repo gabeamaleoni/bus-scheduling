@@ -1,13 +1,5 @@
 import React from 'react'
 
-const getSelectedTrip = (id, props) => {
-	let isSelected = false
-	if (props.selectedTrip) {
-		isSelected = id === props.selectedTrip
-	}
-	return isSelected
-}
-
 const BusRow = props => {
 	return (
 		<div
@@ -40,7 +32,7 @@ const BusRow = props => {
 								<div
 									key={idx}
 									className={`BusRow__trip ${
-										getSelectedTrip(trip.id, props) ? 'is-selected' : ''
+										trip.id === props.selectedTrip ? 'is-selected' : ''
 									}`}
 									onClick={e => props.onTripSelect(e, trip.id, props.busIdx)}
 									style={{
