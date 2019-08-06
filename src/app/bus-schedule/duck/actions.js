@@ -152,36 +152,4 @@ const checkIfTripsConflict = (targetBus, selectedTrip) => {
 		}
 	}
 	return tripsConflict
-
-	// if (
-	// 	selectedTrip.startTime < targetBus.trips[0].startTime &&
-	// 	selectedTrip.endTime < targetBus.trips[0].endTime
-	// ) {
-	// 	return false
-	// }
 }
-
-// const checkIfTripsConflict = (targetBus, selectedTripObj) => {
-// 	let tripsConflict = false
-
-// 	if (targetBus.id === selectedTripObj.busId) {
-// 		// If we are trying to assign trip to the bus it's already assigned to
-// 		return tripsConflict
-// 	}
-// 	const targetBusTripsArr = targetBus.trips
-
-// 	for (var i = 0; i < targetBusTripsArr.length; i++) {
-// 		if (
-// 			(targetBusTripsArr[i].startTime < selectedTripObj.startTime &&
-// 				targetBusTripsArr[i].endTime > selectedTripObj.startTime) ||
-// 			(targetBusTripsArr[i].startTime >= selectedTripObj.startTime &&
-// 				targetBusTripsArr[i].endTime <= selectedTripObj.endTime) ||
-// 			(targetBusTripsArr[i].startTime < selectedTripObj.endTime &&
-// 				targetBusTripsArr[i].endTime > selectedTripObj.endTime)
-// 		) {
-// 			tripsConflict = true
-// 			break
-// 		}
-// 	}
-// 	return tripsConflict
-// }
