@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/bus-scheduling/precache-manifest.0a6d51d272351d40d203893cdb0817e9.js"
+  "/bus-scheduling/precache-manifest.9f5f5cf6a3775da68d519fc67f0e98e6.js"
 );
 
 workbox.clientsClaim();
