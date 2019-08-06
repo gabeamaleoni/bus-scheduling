@@ -1,19 +1,19 @@
 .BusSchedule {
-	padding: 30px;
+	padding: 16px;
 	min-height: 500px;
-	height: calc(100vh - 155px);
+	height: calc(100vh - 85px);
 	overflow: hidden;
 	background-color: rgb(24, 24, 24);
 }
 .BusSchedule__inner {
-	overflow: auto;
+	overflow: scroll;
 }
 .BusRow {
 	display: flex;
 	position: relative;
 	background-color: rgb(40, 40, 40);
 	padding: 10px;
-	height: 35px;
+	height: 30px;
 	width: calc(100% + 250px);
 	min-width: 1000px;
 	border-bottom: 1px solid #272727;
@@ -21,9 +21,7 @@
 }
 .BusRow.is-hoverable:hover {
 	background-color: rgb(32, 32, 32);
-	padding: 10px;
 	cursor: pointer;
-	height: 35px;
 	border-bottom: 1px solid #272727;
 }
 .BusRow:nth-child(even) {
@@ -78,9 +76,9 @@
 	position: relative;
 	bottom: 10px;
 	display: block;
-	width: 100%;
 	height: 30px;
-	margin-left: 171px;
+	width: calc(100% - 171px);
+	left: 171px;
 }
 .ScheduleTimeline__hour {
 	position: absolute;
@@ -93,4 +91,13 @@
 .BusSchedule__message {
 	color: rgb(226, 226, 226);
 	text-align: center;
+}
+@media screen and (min-width: 992px) {
+	.BusRow {
+		width: 100%;
+		min-width: unset;
+	}
+	.BusSchedule__inner {
+		overflow: hidden;
+	}
 }
