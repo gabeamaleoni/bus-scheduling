@@ -37,9 +37,9 @@ class BusSchedule extends Component {
 		return timeToShow
 	}
 
-	onTripSelect = (event, id, busIdx) => {
+	onTripSelect = (event, trip, busIdx) => {
 		event.stopPropagation()
-		this.props.dispatch(onTripSelect({ id: id, busIdx: busIdx }))
+		this.props.dispatch(onTripSelect({ trip, busIdx: busIdx }))
 	}
 
 	onAssignTrip = targetBusIdx => {
@@ -87,7 +87,7 @@ class BusSchedule extends Component {
 						id={bus.id}
 						selectedTrip={
 							this.props.busSchedule.selectedTrip
-								? this.props.busSchedule.selectedTrip.id
+								? this.props.busSchedule.selectedTrip
 								: ''
 						}
 						calculateWidth={this.calculateWidth}

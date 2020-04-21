@@ -25,7 +25,7 @@ export const onBusScheduleLoad = trips => dispatch => {
 	}
 
 	if (trips && trips.length) {
-		trips.forEach((trip, idx) => {
+		trips.forEach(trip => {
 			updatedTripsArr.push(trip)
 			busArr.push({
 				trips: [trip]
@@ -51,6 +51,7 @@ const removeProvisionalBus = busArr => {
 }
 
 export const onTripSelect = data => (dispatch, getState) => {
+	console.log('data: ', data)
 	let newBusArr = getState().busSchedule.busArr
 	let provisionalBus = {
 		trips: [],
@@ -96,7 +97,7 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	selectedTripObj = tripsArr.find(tripsArr => tripsArr.id === selectedTripId)
 
 	// Check if the trips conflict
-	const tripsConflict = checkIfTripsConflict(targetBus, selectedTripObj)
+	const tripsConflict = checkIfTripsConflict(targetBus.trips, selectedTripObj)
 
 	if (tripsConflict) {
 		const newBusArr = removeProvisionalBus(busArr)
@@ -127,13 +128,11 @@ export const onAssignTrip = targetBusIdx => (dispatch, getState) => {
 	}
 }
 
-const checkIfTripsConflict = (targetBus, selectedTrip) => {
+export const checkIfTripsConflict = (trips, selectedTrip) => {
 	let tripsConflict = false
-	const sortedBusTrips = targetBus.trips.sort(
-		(a, b) => a.startTime - b.startTime
-	)
+	const sortedBusTrips = trips.sort((a, b) => a.startTime - b.startTime)
 
-	if (targetBus.trips.filter(trip => trip.id === selectedTrip.id).length > 0) {
+	if (trips.filter(trip => trip.id === selectedTrip.id).length > 0) {
 		/* targetBus trips contains the element we're looking for */
 		return tripsConflict
 	}

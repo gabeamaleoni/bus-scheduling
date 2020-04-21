@@ -25,11 +25,11 @@ export default (state = defaultState, action) => {
 			if (
 				// if user clicks currently selected trip
 				state.selectedTrip &&
-				action.payload.id === state.selectedTrip.id
+				action.payload.trip.id === state.selectedTrip.id
 			) {
 				selectedTrip = null
 			} else {
-				selectedTrip = action.payload
+				selectedTrip = action.payload.trip
 			}
 
 			return {

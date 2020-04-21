@@ -20,9 +20,8 @@
 	transition: 0.3s ease;
 }
 .BusRow.is-hoverable:hover {
-	background-color: rgb(32, 32, 32);
-	cursor: pointer;
-	border-bottom: 1px solid #272727;
+	/* background-color: rgb(32, 32, 32); */
+	/* border-bottom: 1px solid #272727; */
 }
 .BusRow:nth-child(even) {
 	background-color: rgb(52, 52, 52);
@@ -49,6 +48,9 @@
 	text-align: right;
 	font-size: 12px;
 	margin-right: 12px;
+}
+.BusRow__trip_potential {
+	background-color: #acacac;
 }
 .BusRow__trip {
 	position: absolute;

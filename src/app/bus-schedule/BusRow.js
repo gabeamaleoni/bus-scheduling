@@ -1,10 +1,9 @@
 import React from 'react'
+import { checkIfTripsConflict } from './duck/actions'
 
 const BusRow = props => {
 	return (
-		<div
-			className={`BusRow ${props.selectedTrip ? 'is-hoverable' : ''}`}
-			onClick={() => props.onAssignTrip(props.busIdx)}>
+		<div className={`BusRow ${props.selectedTrip ? 'is-hoverable' : ''}`}>
 			<div className='BusRow__left'>
 				<span>
 					{props.trips.length ? `Bus: ${props.busIdx + 1}` : 'New Bus'}
@@ -26,15 +25,35 @@ const BusRow = props => {
 				)}
 			</div>
 			<div className='BusRow__right'>
+				{console.log('props.selectedTrip: ', props)}
+				{props.selectedTrip &&
+				!checkIfTripsConflict(props.trips, props.selectedTrip) ? (
+					<div
+						onClick={() => props.onAssignTrip(props.busIdx)}
+						className='BusRow__trip BusRow__trip_potential'
+						style={{
+							left: props.selectedTrip.startTime,
+							width: props.calculateWidth(
+								props.selectedTrip.startTime,
+								props.selectedTrip.endTime
+							)
+						}}>
+						+
+					</div>
+				) : (
+					''
+				)}
 				{props.trips && props.trips.length
 					? props.trips.map((trip, idx) => {
 							return (
 								<div
 									key={idx}
 									className={`BusRow__trip ${
-										trip.id === props.selectedTrip ? 'is-selected' : ''
+										props.selectedTrip && trip.id === props.selectedTrip.id
+											? 'is-selected'
+											: ''
 									}`}
-									onClick={e => props.onTripSelect(e, trip.id, props.busIdx)}
+									onClick={e => props.onTripSelect(e, trip, props.busIdx)}
 									style={{
 										left: trip.startTime,
 										width: props.calculateWidth(trip.startTime, trip.endTime)
