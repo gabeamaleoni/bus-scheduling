@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/bus-scheduling/static/js/runtime~main.8619965a.js"
   },
   {
-    "revision": "e0506a63e32c6442af7e",
-    "url": "/bus-scheduling/static/js/main.9457acdb.chunk.js"
+    "revision": "0fde7eb795a0c7af9458",
+    "url": "/bus-scheduling/static/js/main.7b93fa04.chunk.js"
   },
   {
     "revision": "cc071ee4229225df7dba",
     "url": "/bus-scheduling/static/js/2.703d1d12.chunk.js"
   },
   {
-    "revision": "e0506a63e32c6442af7e",
+    "revision": "0fde7eb795a0c7af9458",
     "url": "/bus-scheduling/static/css/main.7ed9fbd2.chunk.css"
   },
   {
-    "revision": "32225c4fc0859d0d1614562b03c7a586",
+    "revision": "45a6a6b7859c7d894daa764e730394db",
     "url": "/bus-scheduling/index.html"
   }
 ];
